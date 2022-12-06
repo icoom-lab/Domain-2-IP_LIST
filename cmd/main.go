@@ -2,6 +2,7 @@ package main
 
 import (
 	domain2list "github.com/icoom-lab/Domain-2-IP_LIST"
+	"time"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 		AAAARecords, err := domain2list.GetAAAARecordsNTimes(domain, 4)
 		if err == nil {
 			newListAAAARecords = append(newListAAAARecords, AAAARecords...)
+			time.Sleep(1 * time.Second)
 		}
 	}
 
