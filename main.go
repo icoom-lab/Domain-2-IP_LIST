@@ -1,4 +1,4 @@
-package main
+package domain2list
 
 import (
 	"bufio"
@@ -10,41 +10,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func main() {
-
-	domainsList, err := readLines("domains.txt")
-	if err != nil {
-		return
-	}
-
-	newListAAAARecords := make([]string, 0)
-
-	for _, domain := range domainsList {
-		AAAARecords, err := getAAAARecordsNTimes(domain, 4)
-		if err == nil {
-			newListAAAARecords = append(newListAAAARecords, AAAARecords...)
-		}
-	}
-
-	// create file if not exists and read lines from file to slice
-	nameFile := "iplist.txt"
-	createFileIfNotExists(nameFile)
-	ipListFromFile, err := readLines(nameFile)
-	if err != nil {
-		return
-	}
-
-	// merge 2 slices
-	ipList := append(newListAAAARecords, ipListFromFile...)
-	// remove duplicates
-	ipList = unique(ipList)
-
-	// write to file
-	writeToFile(nameFile, ipList)
-}
-
 // write to file slice string line by line
-func writeToFile(filename string, data []string) error {
+func WriteToFile(filename string, data []string) error {
 	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
 	if err != nil {
 		log.Error(err)
@@ -62,7 +29,7 @@ func writeToFile(filename string, data []string) error {
 }
 
 // from array get onley unique values
-func unique(intSlice []string) []string {
+func Unique(intSlice []string) []string {
 	keys := make(map[string]bool)
 	list := []string{}
 	for _, entry := range intSlice {
@@ -75,7 +42,7 @@ func unique(intSlice []string) []string {
 }
 
 // read all lines from file and return a slice of string
-func readLines(filename string) ([]string, error) {
+func ReadLines(filename string) ([]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Error(err)
@@ -92,7 +59,7 @@ func readLines(filename string) ([]string, error) {
 }
 
 // create file txt if not exists
-func createFileIfNotExists(filename string) error {
+func CreateFileIfNotExists(filename string) error {
 	if !fileExists(filename) {
 		file, err := os.Create(filename)
 		if err != nil {
@@ -113,7 +80,7 @@ func fileExists(filename string) bool {
 }
 
 // get N times AAAA records for a domain
-func getAAAARecordsNTimes(domain string, n int) ([]string, error) {
+func GetAAAARecordsNTimes(domain string, n int) ([]string, error) {
 	AAAARecord := make([]string, 0)
 
 	listDns := []string{"1.1.1.1", "8.8.8.8", "9.9.9.9", "208.67.222.222"}
@@ -127,7 +94,7 @@ func getAAAARecordsNTimes(domain string, n int) ([]string, error) {
 		}
 	}
 
-	return unique(AAAARecord), nil
+	return Unique(AAAARecord), nil
 }
 
 // get AAAA records for a domain
