@@ -27,8 +27,9 @@ func main() {
 	}
 
 	// create file if not exists and read lines from file to slice
-	createFileIfNotExists("test.txt")
-	ipListFromFile, err := readLines("test.txt")
+	nameFile := "iplist.txt"
+	createFileIfNotExists(nameFile)
+	ipListFromFile, err := readLines(nameFile)
 	if err != nil {
 		return
 	}
@@ -39,7 +40,7 @@ func main() {
 	ipList = unique(ipList)
 
 	// write to file
-	writeToFile("test.txt", ipList)
+	writeToFile(nameFile, ipList)
 }
 
 // write to file slice string line by line
