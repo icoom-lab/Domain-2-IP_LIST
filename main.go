@@ -11,10 +11,22 @@ import (
 )
 
 func main() {
-	AAAARecords, err := getAAAARecordsNTimes("youtube.com", 4)
+
+	domainsList, err := readLines("domains.txt")
 	if err != nil {
 		return
 	}
+
+	newListAAAARecords := make([]string, 0)
+
+	for _, domain := range domainsList {
+		AAAARecords, err := getAAAARecordsNTimes(domain, 4)
+		if err == nil {
+			newListAAAARecords = append(newListAAAARecords, AAAARecords...)
+		}
+	}
+
+	// create file if not exists and read lines from file to slice
 	createFileIfNotExists("test.txt")
 	ipListFromFile, err := readLines("test.txt")
 	if err != nil {
@@ -22,7 +34,7 @@ func main() {
 	}
 
 	// merge 2 slices
-	ipList := append(AAAARecords, ipListFromFile...)
+	ipList := append(newListAAAARecords, ipListFromFile...)
 	// remove duplicates
 	ipList = unique(ipList)
 
