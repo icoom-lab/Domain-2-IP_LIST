@@ -83,7 +83,7 @@ func fileExists(filename string) bool {
 func GetAAAARecordsNTimes(domain string, n int) ([]string, error) {
 	AAAARecord := make([]string, 0)
 
-	listDns := []string{"1.1.1.1", "8.8.8.8", "9.9.9.9", "208.67.222.222", "176.103.130.130"}
+	listDns := []string{"8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844"}
 	for i := 0; i < n; i++ {
 
 		rand.Seed(time.Now().Unix())
