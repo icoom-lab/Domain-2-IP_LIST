@@ -2,12 +2,11 @@ package domain2list
 
 import (
 	"bufio"
+	"github.com/lixiangzhong/dnsutil"
+	log "github.com/sirupsen/logrus"
 	"math/rand"
 	"os"
 	"time"
-
-	"github.com/lixiangzhong/dnsutil"
-	log "github.com/sirupsen/logrus"
 )
 
 // write to file slice string line by line
@@ -83,7 +82,7 @@ func fileExists(filename string) bool {
 func GetAAAARecordsNTimes(domain string, n int) ([]string, error) {
 	AAAARecord := make([]string, 0)
 
-	listDns := []string{"8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844", "1.1.1.1", "2606:4700:4700::1111"}
+	listDns := []string{"8.8.8.8", "8.8.4.4", "1.1.1.1", "2606:4700:4700::1111"}
 	for i := 0; i < n; i++ {
 
 		rand.Seed(time.Now().Unix())
